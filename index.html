@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#1F4E79">
+<title>半年听说自由 · 打卡</title>
+<style>
+:root{
+  --navy:#1F4E79; --blue:#2E75B6; --light:#DDEBF7; --pale:#F2F7FC;
+  --green:#3E8E5A; --greenbg:#E2EFDA; --red:#C0392B; --redbg:#FCE4D6;
+  --yellow:#FFF2CC; --line:#D9E2EC; --grey:#7B8794; --bg:#F4F7FA;
+  --radius:14px; --shadow:0 2px 10px rgba(31,78,121,.08);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:#1B2733;
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","WenQuanYi Micro Hei","Noto Sans CJK SC",sans-serif;
+  font-size:15px;line-height:1.55;padding-bottom:60px}
+.wrap{max-width:820px;margin:0 auto;padding:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
+h1{font-size:19px;margin:0;color:#fff;font-weight:700;letter-spacing:.5px}
+.sub{font-size:12px;color:#CFE2F3;margin-top:3px}
+header{background:linear-gradient(135deg,#1F4E79,#2E75B6);border-radius:var(--radius);
+  padding:16px 18px;margin-bottom:14px;box-shadow:var(--shadow)}
+h2{font-size:15px;margin:0 0 12px;color:var(--navy);display:flex;align-items:center;gap:8px}
+h2 .tag{font-size:11px;font-weight:400;color:var(--grey);background:var(--pale);
+  padding:2px 8px;border-radius:20px}
+.big{display:flex;align-items:baseline;gap:8px;margin:2px 0 12px}
+.big b{font-size:40px;line-height:1;color:var(--navy);font-variant-numeric:tabular-nums}
+.big span{font-size:13px;color:var(--grey)}
+.bar{height:12px;background:#E8EEF5;border-radius:20px;overflow:hidden;margin:8px 0 6px}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#2E75B6,#3E8E5A);
+  border-radius:20px;transition:width .35s}
+.barlabels{display:flex;justify-content:space-between;font-size:11px;color:var(--grey)}
+.milestones{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.ms{flex:1;min-width:100px;text-align:center;padding:9px 6px;border-radius:10px;
+  background:var(--pale);border:1px solid var(--line);font-size:11px;color:var(--grey)}
+.ms b{display:block;font-size:13px;color:var(--navy);margin-bottom:2px}
+.ms.on{background:var(--greenbg);border-color:#B7D7B0;color:var(--green)}
+.ms.on b{color:var(--green)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.stat{background:var(--pale);border-radius:10px;padding:9px 4px;text-align:center}
+.stat b{display:block;font-size:17px;color:var(--navy);font-variant-numeric:tabular-nums}
+.stat span{font-size:10px;color:var(--grey)}
+.stage{background:var(--yellow);border-left:4px solid #E1A92B;border-radius:8px;
+  padding:10px 12px;font-size:13px;margin-top:12px}
+.stage b{color:#8A6410}
+label{font-size:12px;color:var(--grey)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row>.f{flex:1;min-width:130px}
+input[type=date],input[type=number],input[type=text],textarea,select{
+  width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:9px;
+  font-size:15px;font-family:inherit;background:#fff;color:#1B2733}
+input:focus,textarea:focus{outline:2px solid #9CC3E5;border-color:var(--blue)}
+.grid4{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+@media(min-width:560px){.grid4{grid-template-columns:repeat(4,1fr)}}
+.field label{display:block;margin-bottom:4px;font-weight:600;color:var(--navy)}
+.quick{display:flex;gap:6px;margin-top:6px}
+.quick button{flex:1;padding:5px 0;font-size:11px;border:1px solid var(--line);
+  background:var(--pale);color:var(--navy);border-radius:7px;cursor:pointer}
+.quick button:hover{background:var(--light)}
+.checks{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}
+@media(min-width:560px){.checks{grid-template-columns:repeat(3,1fr)}}
+.chk{display:flex;align-items:center;gap:8px;padding:9px 10px;border:1px solid var(--line);
+  border-radius:9px;cursor:pointer;font-size:13px;background:#fff;user-select:none}
+.chk input{width:19px;height:19px;accent-color:var(--green);flex:none}
+.chk.done{background:var(--greenbg);border-color:#B7D7B0}
+.chk small{display:block;color:var(--grey);font-size:10px;line-height:1.3}
+textarea{resize:vertical;min-height:52px;margin-top:10px}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+button.btn{padding:9px 14px;border:none;border-radius:9px;background:var(--blue);
+  color:#fff;font-size:13px;font-family:inherit;cursor:pointer;font-weight:600}
+button.btn.ghost{background:var(--pale);color:var(--navy);border:1px solid var(--line)}
+button.btn.warn{background:var(--redbg);color:var(--red);border:1px solid #F0C4B6}
+button.btn:active{transform:translateY(1px)}
+.saved{font-size:11px;color:var(--green);margin-left:auto;align-self:center;opacity:0;transition:opacity .3s}
+.saved.show{opacity:1}
+.heat{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:10px}
+.day{aspect-ratio:1;border-radius:7px;background:#EDF2F7;border:1px solid var(--line);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:10px;color:var(--grey);cursor:pointer;line-height:1.2}
+.day b{font-size:12px;color:var(--navy)}
+.day.l1{background:#D6E9F7}.day.l2{background:#A9D2EC}
+.day.l3{background:#6FB0DA;color:#fff}.day.l3 b{color:#fff}
+.day.l4{background:var(--green);color:#fff}.day.l4 b{color:#fff}
+.day.today{outline:2px solid #E1A92B;outline-offset:1px}
+.day.miss{background:#fff;border-style:dashed}
+.legend{font-size:10px;color:var(--grey);margin-top:8px}
+details{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:12px;background:var(--pale)}
+summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--navy)}
+details ul{margin:10px 0 0;padding-left:20px;font-size:12px;color:#405060}
+details li{margin-bottom:5px}
+.topic{background:var(--light);border-radius:10px;padding:12px;font-size:13px}
+.topic b{color:var(--navy)}
+.topic .kv{margin-top:5px;color:#405060;font-size:12px}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+th,td{padding:7px 5px;border-bottom:1px solid var(--line);text-align:center}
+th{background:var(--pale);color:var(--navy);font-weight:600}
+td.left{text-align:left}
+.foot{font-size:11px;color:var(--grey);text-align:center;padding:8px 4px 20px;line-height:1.7}
+.pill{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;
+  background:var(--yellow);color:#8A6410;margin-left:6px}
+/* remind banner */
+.banner{position:fixed;left:0;right:0;top:0;z-index:99;background:linear-gradient(135deg,#1F4E79,#2E75B6);
+  color:#fff;padding:12px 16px;box-shadow:0 4px 18px rgba(0,0,0,.25);display:none;transform:translateY(-110%);
+  transition:transform .3s}
+.banner.show{display:block;transform:translateY(0)}
+.banner b{font-size:14px}
+.banner p{margin:5px 0 9px;font-size:12px;line-height:1.5;white-space:pre-line;color:#EAF3FB}
+.banner button{padding:6px 12px;border:none;border-radius:7px;background:#fff;color:var(--navy);
+  font-size:12px;font-weight:600;margin-right:7px;cursor:pointer;font-family:inherit}
+.banner button.gh{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.6)}
+.mini{font-size:11px;color:var(--grey);margin-top:6px;line-height:1.6}
+.map td{text-align:left;vertical-align:top;font-size:12px;line-height:1.6}
+.map td:first-child{white-space:nowrap;font-weight:600;color:var(--navy);background:var(--pale);width:104px}
+.map th{text-align:left}
+.map tr:nth-child(even) td{background:#FBFDFE}
+@media(max-width:520px){
+  .map thead{display:none}
+  .map,.map tbody,.map tr,.map td{display:block;width:100%}
+  .map tr{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;padding:8px 10px;background:#fff}
+  .map td{border:none;border-bottom:1px dashed #E6EDF4;padding:7px 2px;text-align:left;background:#fff!important}
+  .map tr td:last-child{border-bottom:none}
+  .map td:first-child{width:auto;background:transparent!important;color:var(--blue);
+    font-size:13.5px;padding-top:2px}
+  .map td:nth-child(2):before{content:"材料　";color:var(--grey);font-size:10px;font-weight:600}
+  .map td:nth-child(3):before{content:"为什么　";color:var(--grey);font-size:10px;font-weight:600;display:block;margin-bottom:2px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .milestones{flex-wrap:wrap}
+  .ms{min-width:calc(50% - 4px)}
+  .wrap{padding:10px}
+  .card{padding:13px}
+}
+.chain{counter-reset:step;list-style:none;padding:0;margin:8px 0 0}
+.chain li{position:relative;padding:9px 10px 9px 40px;margin-bottom:7px;border-radius:9px;
+  background:var(--pale);font-size:12.5px;line-height:1.6}
+.chain li:before{counter-increment:step;content:counter(step);position:absolute;left:10px;top:10px;
+  width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:11px;
+  font-weight:700;display:flex;align-items:center;justify-content:center}
+.chain li b{color:var(--navy)}
+.sumbox{background:var(--pale);border:1px solid var(--line);border-radius:10px;padding:12px;
+  font-size:12.5px;line-height:1.75;white-space:pre-wrap;word-break:break-word;margin-top:10px}
+.warnbox{background:var(--yellow);border-left:4px solid #E1A92B;border-radius:8px;
+  padding:10px 12px;font-size:12px;margin-top:10px;line-height:1.65}
+.alertbar{position:sticky;top:0;z-index:98;background:#FCE4D6;border:1px solid #E6B0A0;
+  color:#C0392B;border-radius:10px;padding:10px 12px;font-size:12px;
+  margin-bottom:12px;line-height:1.6;box-shadow:var(--shadow)}
+.hide{display:none}
+</style>
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-title" content="英语打卡">
+<style>
+.installcard{display:none;background:linear-gradient(135deg,#E8F1FA,#F2F7FC);
+  border:1px solid #9CC3E5;border-left:4px solid var(--blue)}
+.installcard h2{margin-bottom:6px}
+.installcard p{font-size:12px;color:#405060;margin:0 0 10px;line-height:1.65}
+.installcard .btn{font-size:12px;padding:8px 14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="banner" id="banner">
+  <b id="bannerTitle">今日小结</b>
+  <p id="bannerBody"></p>
+  <button id="bannerGo">去打卡</button>
+  <button class="gh" id="bannerClose">知道了</button>
+</div>
+
+<header>
+  <h1>半年听说自由 · 打卡</h1>
+  <div class="sub">已过四级 / 半人马星座 → 超新星　·　每天 2h+ 听力，按累计小时升级，不按周次硬卡</div>
+</header>
+
+<div class="card installcard" id="installCard">
+  <h2>装成 App <span class="tag">点一下就行</span></h2>
+  <p id="iosHint" style="display:none">iPhone / iPad：点 Safari 底部「分享」→「添加到主屏幕」。<b>必须用 Safari</b>，其他浏览器装不了；装完从主屏图标打开才是全屏。</p>
+  <p id="andHint">装完后从主屏图标打开：全屏、无地址栏、离线也能打卡。数据存在这个 App 里，<b>换设备前记得导出备份</b>。</p>
+  <button class="btn" id="btnInstall" style="display:none">安装到手机</button>
+</div>
+
+<div class="card">
+  <h2>进度 <span class="tag">自动算，改数据即刷新</span></h2>
+  <div class="big"><b id="total">0.0</b><span>小时累计听力</span></div>
+  <div class="bar"><i id="bar" style="width:0%"></i></div>
+  <div class="barlabels"><span>0h</span><span id="barMid">200h 质变线</span><span id="barGoal">360h 半年目标</span></div>
+  <div class="milestones">
+    <div class="ms" id="ms100"><b>100h</b>启动口语</div>
+    <div class="ms" id="ms200"><b>200h</b>听力质变</div>
+    <div class="ms" id="ms360"><b>360h</b>半年收口</div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b id="streak">0</b><span>连续天数</span></div>
+    <div class="stat"><b id="okdays">0</b><span>≥2h 达标天</span></div>
+    <div class="stat"><b id="avg">0.0</b><span>日均听力(h)</span></div>
+    <div class="stat"><b id="full">0%</b><span>7 勾全齐率</span></div>
+  </div>
+  <div class="stage" id="stage"></div>
+</div>
+
+<div class="card">
+  <h2>今日打卡 <span class="tag">改完自动保存</span></h2>
+  <div class="row">
+    <div class="f"><label>日期（可回补）</label><input type="date" id="date"></div>
+    <div class="f"><label>本周主题</label><input type="text" id="week" readonly></div>
+  </div>
+
+  <div class="grid4">
+    <div class="field"><label>泛听 (h)</label><input type="number" id="fan" step="0.25" min="0" inputmode="decimal" placeholder="1.5">
+      <div class="quick"><button data-set="fan" data-v="2">2h</button><button data-set="fan" data-v="2.5">2.5h</button><button data-set="fan" data-v="3">3h</button></div></div>
+    <div class="field"><label>精听 (min)</label><input type="number" id="jing" step="5" min="0" inputmode="numeric" placeholder="20">
+      <div class="quick"><button data-set="jing" data-v="15">15</button><button data-set="jing" data-v="20">20</button><button data-set="jing" data-v="30">30</button></div></div>
+    <div class="field"><label>阅读 (min)</label><input type="number" id="read" step="5" min="0" inputmode="numeric" placeholder="45">
+      <div class="quick"><button data-set="read" data-v="30">30</button><button data-set="read" data-v="45">45</button></div></div>
+    <div class="field"><label>跟读 (min)</label><input type="number" id="shadow" step="5" min="0" inputmode="numeric" placeholder="15">
+      <div class="quick"><button data-set="shadow" data-v="15">15</button><button data-set="shadow" data-v="30">30</button></div></div>
+  </div>
+
+  <div class="checks" id="checks"></div>
+  <textarea id="note" placeholder="备注 / 今天卡在哪：题材太难？口音听不惯？刷不下去？（选填）"></textarea>
+
+  <div class="row" style="margin-top:10px">
+    <div class="f"><label>今日理解率（选填 · 用来自动纠偏难度）</label>
+      <select id="comp">
+        <option value="">不填</option>
+        <option value="lt30">低于 30% · 太难</option>
+        <option value="3050">30–50% · 偏难</option>
+        <option value="5070">50–70% · 刚好（i+1）</option>
+        <option value="gt70">70% 以上 · 偏易</option>
+      </select></div>
+  </div>
+
+  <div class="btns">
+    <button class="btn ghost" id="btnToday">回到今天</button>
+    <button class="btn ghost" id="btnCopy">复制昨天</button>
+    <button class="btn ghost" id="btnAll">全勾（确认真做到）</button>
+    <span class="saved" id="saved">✓ 已保存</span>
+  </div>
+
+  <details>
+    <summary>今日红线 · 出现任意一条，这天不算数</summary>
+    <ul>
+      <li>开了中文字幕（英文字幕可以，中文字幕等于跳过思考）</li>
+      <li>同一段听了第 4 遍以上；或泛听里追求 100% 听懂、逐词暂停</li>
+      <li>当天听力不足 2h；挂着当背景音、实际没在听</li>
+      <li>背单词表 / 背文章句型 / 抄花哨笔记 / 把语法当主菜</li>
+      <li>听力底子没攒够就报口语班、找外教硬聊</li>
+      <li>用美剧、动画片、小软件当主教材；死盯某一门课</li>
+    </ul>
+  </details>
+</div>
+
+<div class="card">
+  <h2>本周该听什么 <span class="tag">26 周自动轮换</span></h2>
+  <div class="topic" id="topic"></div>
+</div>
+
+<div class="card">
+  <h2>该听谁 · 五类训练材料地图 <span class="tag">按用途点名，别混着用</span></h2>
+  <table class="map">
+    <tr><th>训练环节</th><th>听谁 / 读什么</th><th>为什么是它（这一环只解决一件事）</th></tr>
+    <tr><td>泛听 · 标准半场<br><small>约 50%</small></td>
+      <td>Learn English with Bob the Canadian（新手首选：节奏适中、发音清晰、日常）<br>
+      Speak English With Vanessa<br>Rachel's English<br>English with Alex · engVid</td>
+      <td>负责把「声音 ↔ 意义」第一次对上。语速慢、吐字干净、有画面，理解成本最低，才能在单位时间里吞下更多可理解输入。新手先从 Bob 入手，别一上来就挑快的。</td></tr>
+    <tr><td>泛听 · 真实半场<br><small>约 50%</small></td>
+      <td>用英语搜你真感兴趣的话题：NBA 解说、旅拍、访谈、演讲、TED、纪录片、科技 / 历史 / 生活 / 旅行<br>
+      具体频道：Sabbatical、PatD Explores、peter santenello、a sccoot in china、Tucker Carlson<br>
+      口音：美音 + 英音为主，掺澳 / 亚洲 / 印度 / 中东；考雅思多听英音</td>
+      <td>负责「迁移」。同一个词要在不同人嘴里、不同情绪、不同场景里撞几次，大脑才建得起听觉模板。只听标准频道会过拟合，换个口音就垮。这一半也是唯一能让你每天刷够 2h 的燃料——因为是真的想看。</td></tr>
+    <tr><td>精听<br><small>15–30min</small></td>
+      <td>BBC 3 分钟视频，或从长视频截 1–2 分钟<br>也可取 Rachel's English / GB Voice Academy 的发音讲解短片段</td>
+      <td>唯一允许死磕的地方，练「耳朵分辨率」：盲听 2 遍 → 开字幕逐句搞懂 → 交替到听清每个词。短是因为它极耗认知，拉长就挤掉泛听总量。泛听里绝不追 100%。</td></tr>
+    <tr><td>阅读<br><small>45min</small></td>
+      <td>LinkedIn 招聘信息、亚马逊商品页、英文新闻（先中文补背景）、简版原版小说、英文绘本、美国初中生科普读物、当地报纸 / 海外招聘广告、外刊期刊、长篇报道</td>
+      <td>这里没有「博主」，是真实文本。负责补词汇量与长句解析能力，且提供泛听需要的背景知识。只查明显卡理解的词；词都认识但句子不懂，整句丢给 AI。不做笔记、不复习、语法不当主菜。</td></tr>
+    <tr><td>跟读 / 模仿<br><small>15–30min</small></td>
+      <td>GB Voice Academy（夸张清晰的口型示范，纠音）<br>Bob the Canadian / Vanessa 的简短对话（一句一暂停）<br>再选 <b>一位</b> 你喜欢的母语者当长期口音模板</td>
+      <td>负责先把英语的「声音系统」装进脑子：语调起伏、节奏、连读、口腔与胸腔发声位置。这是开口前的过渡，不是口语输出——先有声音模板，后 100h 才开口，才不会把中式语调练成肌肉记忆。</td></tr>
+    <tr><td>口语输出<br><small>过 100h 后</small></td>
+      <td>ChatGPT 随机对话（不会说先打中文，让它给地道英文再跟读）<br>每天自录 5min → downsub 提字幕 → AI 优化成地道文本存档</td>
+      <td>输入满了之后的溢出。讲的全是你自己的生活与观点，真实对话里最容易被调取；比背陌生话题、比外教模板句有用得多。听力仍保底 2h/天，一天不断。</td></tr>
+    <tr><td>明确不跟<br><small>你已过四级</small></td>
+      <td>新概念一 / 二（低阶，细节材料里明确说「不用去学新概念」）<br>周育如音标课（只在音标有短板时每天 5 分钟看表）<br>美剧《老友记》《绝望主妇》、动画片、背单词 APP、各类小软件、口语班、自然拼读</td>
+      <td>这些要么低于你当前阶段，要么把时间换成「重复同一内容 / 第三方投喂 / 中文字幕」，直接砍掉总量。听力没底就报口语班尤其亏：听不懂就没法深入交流，还容易固化中式表达。</td></tr>
+  </table>
+  <div class="mini">工具只留四个：欧路词典（测词量 / 查词跟读 / 六级雅思词库 A→Z 混脸熟）、downsub.com（提字幕预习）、ChatGPT（长句解析 / 主动词 / 口语）、每日英语听力（仅打卡记时长）。中文字幕全程戒掉。</div>
+</div>
+
+<div class="card">
+  <h2>底层逻辑 · 为什么这么排 <span class="tag">一条因果链</span></h2>
+  <ol class="chain">
+    <li><b>先诊断卡点。</b>四级水平「看得懂但听不懂」，缺的不是词汇量，是词汇只以<b>视觉形式</b>存着，没建成听觉形式。所以主轴不是背词、不是语法，是把已知的词在语音流里重新认出来。</li>
+    <li><b>唯一解药是可理解性输入的总量。</b>成人跨语种没有「听着就会」的儿童式习得；必须先理解再听。英文字幕 + 画面 + 已知背景把声音和意义对上（i+1），中文字幕会插入「英文→中文→意义」，把这一步练成依赖，所以戒掉。</li>
+    <li><b>总量 = 多来源 × 多场景，不是多次数。</b>同一段听到第 6 遍，大脑已经在预播下一句，会偷懒；熟一段也迁移不到别的口音。所以一个视频最多 3 遍，时间全换成新内容。这也是「大力出奇迹」的真实含义。</li>
+    <li><b>词汇靠语境附带习得，才撑得起量。</b>只查本语境一个意思、不要求拼写、不做笔记不复习 → 单次成本极低 → 每天才可能吞下几万词输入；高频词在不同语境反复撞见自然沉淀（遇不到说明此刻不重要），低频词自然淘汰。孤立背词表记不住，更无法在语音流里被瞬间激活。</li>
+    <li><b>兴趣是唯一能持续供给 2–3h/天的燃料。</b>追剧打游戏能一天几小时，把内容换成想看的英语视频，时间就不是问题；枯燥刷 BBC 只为凑时长，两周必断。所以开放式选源、不锁死某一门课，按「懂一半以上、高一点点」挑材料。</li>
+    <li><b>输出是溢出，不是提前硬挤。</b>先用跟读装好声音系统，累计 100h 后脑子开始「听到英语」再开口；连读弱读、脑内翻译这些细节会随输入量自动退场，提前纠结等于「没学会走路先想起飞」。</li>
+    <li><b>最后交给时间账。</b>200h 是质变线（≈2h/天 × 3 个月），半年给到 360–400h 留足余量。工具只监督两件事：<b>今天几小时</b>、<b>有没有犯红线</b>——其余全部自动算，摩擦越低越不容易断。</li>
+  </ol>
+  <div class="warnbox"><b>五类材料各管一环，不能互相替代：</b>标准频道降理解成本 → 真实频道做多场景迁移 → 精听练分辨率 → 阅读补词汇与背景 → 跟读装声音模板 → 100h 后输出。只听 Bob 会过拟合，只刷真实频道会太难而断，只精听会没总量，跳过跟读直接开口会固化中式腔——这正是「单一材料学不成」的原因。</div>
+</div>
+
+<div class="card">
+  <h2>最近 21 天 <span class="tag">点格子可回补</span></h2>
+  <div class="heat" id="heat"></div>
+  <div class="legend">颜色越深 = 当天听力越多　·　虚线 = 未记录　·　黄框 = 今天</div>
+  <div id="recent"></div>
+</div>
+
+<div class="card">
+  <h2>提醒 & 每日自动小结 <span class="tag">手机也能用</span></h2>
+  <div class="row">
+    <div class="f"><label>每日提醒时间（改完需重新导出 .ics 才生效）</label><input type="time" id="remindTime" value="20:30"></div>
+    <div class="f"><label>浏览器通知</label><button class="btn ghost" id="btnNotify" style="width:100%">开启网页通知（可选）</button></div>
+  </div>
+  <div class="btns">
+    <button class="btn" id="btnIcs">导出到手机日历（180 天每日提醒）</button>
+    <button class="btn ghost" id="btnTest">测试提醒弹窗</button>
+    <button class="btn ghost" id="btnCopySum">复制今日小结</button>
+    <button class="btn ghost" id="btnWeekSum">生成本周小结</button>
+  </div>
+  <div class="sumbox" id="dailySum"></div>
+  <div class="mini">提醒时间也可以在<b>日历 App 里直接改</b>：打开那条重复事件 → 编辑 → 改时间并选「此活动及后续活动 / 所有活动」，还能顺手把通知提前量改成 10 分钟。已导入的事件不会跟着本页设置变，重新导出 .ics 后记得删旧条目。</div>
+  <div class="warnbox"><b>提醒的边界，说清楚：</b>这是单个网页文件，<b>关掉后不会后台推送</b>。真正到点响的是「导出到手机日历」生成的 .ics —— 系统级重复提醒，锁屏也响，最可靠。网页通知只在页面开着（或浏览器允许后台）时才弹，且部分手机浏览器对本地文件禁用通知；万一开不了，用日历那份就行。每日小结在<b>每次打开页面时自动重算</b>，到点弹窗里也会带出来。</div>
+</div>
+
+<div class="card">
+  <h2>备份与设置 <span class="tag">数据只存在这台设备的浏览器里</span></h2>
+  <div class="row">
+    <div class="f"><label>训练开始日期（只决定 26 周轮换 W1）</label><input type="date" id="startDate"></div>
+    <div class="f"><label>质变线 (h)</label><input type="number" id="target" min="1" step="10"></div>
+    <div class="f"><label>半年目标 (h)</label><input type="number" id="goal" min="1" step="10"></div>
+  </div>
+  <div class="mini">「开始日期」只影响 W1 周次和日历提醒的起始日；<b>累计小时、100h/200h/360h 里程碑一律按你实际填的记录算</b>，不会因改日期而变。想延后开练就填未来日期，日历也会从那天才响。</div>
+  <div class="btns">
+    <button class="btn" id="btnJson">导出备份 (JSON)</button>
+    <button class="btn ghost" id="btnCsv">导出 CSV</button>
+    <button class="btn ghost" id="btnImport">导入备份</button>
+    <button class="btn ghost" id="btnAlign">W1 起点对齐今天</button>
+    <button class="btn warn" id="btnReset">清空全部</button>
+    <input type="file" id="file" accept=".json,application/json" class="hide">
+  </div>
+  <div class="foot">
+    <b>手机怎么用：</b>Android 把这个 .html 发到微信/QQ，选「用浏览器打开」→ 菜单「添加到主屏幕」；
+    iOS 存进「文件」App，点开后用 Safari 打开 → 分享「添加到主屏幕」。之后全屏打开，像 App 一样。<br>
+    <b>数据只在这台设备的这个浏览器里</b>：换浏览器、清缓存、无痕模式、换手机都会丢 → 每周点一次「导出备份」，新设备「导入备份」。<br>
+    提醒请用「导出到手机日历」：下载 .ics → 加入日历，180 天每日重复、锁屏也响（提醒文字固定不过期，带 Asia/Shanghai 时区，导入 Google 日历不会差 8 小时）。<br>
+    26 周轮换默认从<b>首次打开当天</b>起算；想延后开练改「开始日期」，日历提醒自动跟着延后。想重排点「W1 起点对齐今天」。<br>
+    <b>本地 file:// 打开可能被浏览器禁用存储</b>：若顶部出现红色警示条，或「添加到主屏幕」选项灰色，请把本文件放到任意 https 静态网址再打开（GitHub Pages / Gitee Pages / Netlify / 自己的服务器均可），数据才稳定。
+  </div>
+</div>
+
+</div>
+
+<script>
+const KEY = 'weikang_checkin_v1';
+const TOPICS = [
+ ['试频道池：每个推荐频道各看 1–2 条，圈出能刷下去的 2–3 个','日常 / 自我介绍 / 购物','美音为主，先求清晰','亚马逊商品页 + 短新闻','欧路测词量确认阶段；装齐工具、试 downsub 提字幕'],
+ ['Bob the Canadian','日常生活、居家、超市、做饭','旅拍 / 城市漫步','美音','LinkedIn 招聘信息','定下固定时段；练熟两遍法节奏'],
+ ['Speak English With Vanessa','科技与数码评测、开箱','旅行 vlog / 路线记录','美音','简版原版小说前两章','记录「只查 10–15 词」是否守住'],
+ ['Rachel\'s English','访谈 / 人物故事（语速偏慢）','NBA 解说与赛后采访','美音 + 少量澳音','英文新闻（先中文补背景）','精听固定用 1–2 分钟片段，别拉长'],
+ ['English with Alex · engVid','历史 / 科普讲解','演讲、TED 短场','美音','美国初中科普读物','检查「同一段听第 4 遍」有没有回潮'],
+ ['GB Voice Academy（跟读纠音）','美食、咖啡、家居','旅拍 / 露营 / 自驾','美音 + 英音各半','当地报纸 / 生活专栏','选一位喜欢的母语者当口音模板'],
+ ['Bob the Canadian + Vanessa','观点类短评、Q&A','Sabbatical / PatD Explores 类纪实','美音 + 英音','外刊短篇','跟读时手摸胸口，找胸腔震动'],
+ ['回听最卡的 2 类题材','自选最感兴趣的一类，加大时长','维持美 / 英音','本月最卡的一篇长文重读','第 8 周小结：累计、卡点、下周加难幅度'],
+ ['访谈（更长、语速更快）','peter santenello / a sccoot in china 类纪实','英音提到 1/3','长篇报道','过 100h 才启动 5min 自录 + AI 对话，不过就继续等'],
+ ['纪录片解说（15–20min）','科技 / 商业深度视频','英音 + 澳音','专业领域入门文章','自录视频提字幕 → AI 改写成更地道文本存档'],
+ ['职场 / 商业访谈','Tucker Carlson 类观点节目','掺印度、中东口音','LinkedIn 长帖 + 行业报告','把自录里卡住的表达整理成 10 句 AI 主动词'],
+ ['英音周：BBC / 英式学习频道','英式访谈、英剧访谈（非剧集）','刻意适应英音（雅思听力口径）','英媒新闻 + 评论','第 12 周小结：能否脱离字幕听懂熟悉题材'],
+ ['30min+ 采访 / 纪录片','多国口音街访、真实对话','澳 / 亚洲 / 印度 / 中东轮换','学术文章、长篇报道','过 200h 后材料正式升档；不过则继续原难度'],
+ ['新闻时事、发布会','科技发布会完整场','英音 + 美音','外刊期刊 + 社论','每周至少一次全程无字幕盲听熟悉题材'],
+ ['文化、艺术、博物馆讲解','城市纪录片 / 文化对比','多口音','文化评论长文','自录从「讲生活」升级到「讲观点」'],
+ ['长视频 30min+ 不切段','完整访谈 / 演讲全场','维持多口音','专业领域材料 1','练「不暂停、抓大意」；精听仍只占 15–30min'],
+ ['学术 / 科普讲座','专业话题：科技、历史、工程','英音 + 美音','专业领域材料 2','把本周听不懂的高频词做成 10 条 AI 主动词'],
+ ['观点辩论、圆桌讨论','争议话题、多人对话','多人抢话、重叠语音','观点类专栏','练在抢话里抓关键词，不追 100%'],
+ ['自选最感兴趣频道（开放式）','专业领域 A：自己行业相关英语','按材料自然口音','行业英文资料','检查是否「被某一套课框住」，主动换源'],
+ ['自选（换成新频道）','专业领域 B：跨一个陌生领域','按材料自然口音','陌生领域入门长文','盲听比例提高到泛听的 1/3'],
+ ['雅思题材 / 学术听力（可选）','英音访谈 + 讲座','英音为主','雅思阅读类文章','不考雅思可跳过，换同等难度兴趣材料'],
+ ['无字幕挑战周','熟悉题材的新视频全部关字幕','维持多口音','不查词通读一篇长文','允许「只懂大意」；记录盲听理解率变化'],
+ ['真实对话 / 街访 / 电话类音频','无脚本 vlog、直播切片','最快、最含糊的口音','社交媒体长帖、评论区','自录 5min 连做 7 天，对比 W9 第 1 条'],
+ ['回炉最有效的 2 个频道','自选综合','自选','自选','中期复盘：卡点从「听不清」变成「听不懂词」还是相反'],
+ ['弱项回补：1 种口音或 1 类题材','弱项题材加倍输入','专攻弱项口音','弱项题材长文','找人 / AI 回访摸底、纠偏一次'],
+ ['固化自学循环：自己找源','完全按兴趣自由选','不再刻意','完全按兴趣','写下下阶段计划：继续 2h/天，或接雅思备考']
+];
+const CHECK_LABELS = [
+ ['泛听 ✓','两遍法 / 最多 3 遍'],
+ ['精听 ✓','15–30min 短片段'],
+ ['阅读 ✓','45min 真实文本'],
+ ['跟读 ✓','模仿语调不求快'],
+ ['戒中文字幕 ✓','只开英文字幕'],
+ ['同一段 ≤3 遍 ✓','不磨第 4 遍'],
+ ['今天没断 ✓','听力 ≥2h'],
+ ['自录 5min ✓','100h 后才需要'],
+ ['AI 对话 ✓','100h 后才需要']
+];
+
+function fmt(d){
+  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), dd=String(d.getDate()).padStart(2,'0');
+  return y+'-'+m+'-'+dd;
+}
+function parse(s){ const p=s.split('-'); return new Date(+p[0],+p[1]-1,+p[2]); }
+function addDays(s,n){ const d=parse(s); d.setDate(d.getDate()+n); return fmt(d); }
+function diffDays(a,b){ return Math.round((parse(a)-parse(b))/86400000); }
+function today(){ return fmt(new Date()); }
+
+const DEFAULT = { startDate:null, target:200, goal:360, remindTime:'20:30', days:{} };
+let S;
+try{ S = Object.assign({}, DEFAULT, JSON.parse(localStorage.getItem(KEY)||'{}')); }
+catch(e){ S = Object.assign({}, DEFAULT); }
+if(!S.days) S.days={};
+
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(S)); flash(); }
+  catch(e){ alert('保存失败：这个浏览器禁止本地存储。请用 Chrome / Edge / Safari 打开，或先导出备份。'); }
+}
+let flashTimer;
+function flash(){
+  const el=document.getElementById('saved');
+  el.classList.add('show'); clearTimeout(flashTimer);
+  flashTimer=setTimeout(()=>el.classList.remove('show'),1400);
+}
+function num(id){ const v=parseFloat(document.getElementById(id).value); return isNaN(v)||v<0?0:v; }
+function hours(rec){ return (rec.fan||0) + (rec.jing||0)/60; }
+function getRec(d){
+  return S.days[d] || {fan:0,jing:0,read:0,shadow:0,note:'',checks:Array(9).fill(false)};
+}
+function putRec(d,r){ S.days[d]=r; }
+
+function weekIndex(d){
+  let w=Math.floor(diffDays(d,S.startDate)/7)+1;
+  if(!isFinite(w)) w=1;
+  return Math.min(Math.max(w,1),26);
+}
+function weekData(d){
+  const w=weekIndex(d), t=TOPICS[w-1];
+  if(t.length===6) return {w,std:t[0]+'｜'+t[1],real:t[2],accent:t[3],reading:t[4],extra:t[5]};
+  return {w,std:t[0],real:t[1],accent:t[2],reading:t[3],extra:t[4]};
+}
+
+function compute(){
+  const td=today();
+  const keys=Object.keys(S.days).sort();
+  let total=0, ok=0, full=0, logged=0, future=0;
+  const cum={};
+  keys.forEach(k=>{
+    if(k>td){ future++; return; }
+    const r=S.days[k], h=hours(r);
+    total+=h; cum[k]=total;
+    if(h>0){
+      logged++;
+      if(h>=2) ok++;
+      const c=r.checks||[];
+      if(c.slice(0,7).filter(Boolean).length===7) full++;
+    }
+  });
+  let streak=0;
+  let cur=today();
+  if(!S.days[cur] || hours(S.days[cur])===0) cur=addDays(cur,-1);
+  while(S.days[cur] && hours(S.days[cur])>0){ streak++; cur=addDays(cur,-1); }
+  return {total,ok,full,logged,streak,cum,future,
+    avg: logged? total/logged : 0,
+    fullRate: logged? Math.min(full/logged,1) : 0};
+}
+
+function render(){
+  const c=compute(), d=document.getElementById('date').value||today(), wd=weekData(d);
+  document.getElementById('total').textContent=c.total.toFixed(1);
+  const pct=Math.min(c.total/S.target,1)*100;
+  document.getElementById('bar').style.width=pct+'%';
+  document.getElementById('barMid').textContent=S.target+'h 质变线';
+  document.getElementById('barGoal').textContent=S.goal+'h 半年目标';
+  ['ms100','ms200','ms360'].forEach((id,i)=>{
+    const th=[100,S.target,S.goal][i];
+    document.getElementById(id).classList.toggle('on',c.total>=th);
+  });
+  document.getElementById('streak').textContent=c.streak;
+  document.getElementById('okdays').textContent=c.ok;
+  document.getElementById('avg').textContent=c.avg.toFixed(1);
+  document.getElementById('full').textContent=Math.round(c.fullRate*100)+'%';
+
+  let st;
+  if(c.total<100) st='<b>纯输入期</b>　只做泛听 + 精听 + 阅读 + 15min 跟读，不主动输出、不硬聊。距 100h 还差 <b>'+Math.ceil(100-c.total)+'h</b>。目标：把「看得懂」变成「耳朵能反应」。';
+  else if(c.total<S.target) st='<b>启动口语</b>　加 5min 自录视频 + AI 对话；脑子开始「听到英语」时开口最自然。听力仍 ≥2h/天。距质变线还差 <b>'+Math.ceil(S.target-c.total)+'h</b>。';
+  else if(c.total<S.goal) st='<b>深化输出</b>　材料升到 30min+ 采访 / 纪录片 / TED，口音扩到英音与多国口音；自录从「讲生活」升到「讲观点」。距半年目标还差 <b>'+Math.ceil(S.goal-c.total)+'h</b>。';
+  else st='<b>半年收口达成</b>　固化「自己找源、自己定难度」的自学循环。日常与兴趣话题能听能接，能讲自己的生活与观点。';
+  if(c.future) st+='<div style="margin-top:8px;color:#C0392B"><b>注意：</b>检测到 '+c.future+' 条未来日期记录（可能是误填），已排除在累计之外。</div>';
+  document.getElementById('stage').innerHTML=st;
+  const ba=document.getElementById('btnAll');
+  if(ba) ba.textContent = c.total>=100 ? '全勾（确认真做到）' : '全勾前 7 项（红线）';
+
+  document.getElementById('week').value='W'+wd.w+'　'+wd.real.slice(0,14)+(wd.real.length>14?'…':'');
+  document.getElementById('topic').innerHTML=
+    '<b>W'+wd.w+'　真实语境：'+wd.real+'</b>'+
+    (wd.std?'<div class="kv"><b>标准频道</b>　'+wd.std+'</div>':'')+
+    '<div class="kv"><b>口音 / 加难</b>　'+wd.accent+'</div>'+
+    '<div class="kv"><b>阅读</b>　'+wd.reading+'</div>'+
+    '<div class="kv"><b>本周动作</b>　'+wd.extra+'</div>';
+
+  renderChecks(d);
+  renderHeat(c);
+  renderRecent(c);
+  if(document.getElementById("dailySum")) renderSum();
+}
+
+function renderChecks(d){
+  const r=getRec(d), box=document.getElementById('checks');
+  const late=compute().total<100;
+  box.innerHTML='';
+  CHECK_LABELS.forEach(([label,hint],i)=>{
+    const on=!!(r.checks&&r.checks[i]);
+    const el=document.createElement('label');
+    el.className='chk'+(on?' done':'');
+    el.innerHTML='<input type="checkbox" data-i="'+i+'" '+(on?'checked':'')+'><span>'+label+'<small>'+hint+'</small></span>';
+    if(i>=7 && late) el.style.opacity='.55';
+    box.appendChild(el);
+  });
+}
+
+function renderHeat(c){
+  const box=document.getElementById('heat'); box.innerHTML='';
+  const end=today();
+  for(let i=20;i>=0;i--){
+    const d=addDays(end,-i), r=S.days[d], h=r?hours(r):0;
+    const el=document.createElement('div');
+    let lv=h===0?'miss':h<1?'l1':h<2?'l2':h<3?'l3':'l4';
+    el.className='day '+lv+(d===end?' today':'');
+    el.innerHTML='<b>'+(+d.slice(8))+'</b><span>'+(h?h.toFixed(1)+'h':'—')+'</span>';
+    el.title=d+'　'+h.toFixed(2)+'h';
+    el.onclick=()=>{ document.getElementById('date').value=d; loadDay(d); };
+    box.appendChild(el);
+  }
+}
+
+function renderRecent(c){
+  const keys=Object.keys(S.days).filter(k=>k<=today() && hours(S.days[k])>0).sort().reverse().slice(0,7);
+  const box=document.getElementById('recent');
+  if(!keys.length){ box.innerHTML='<div class="legend">还没有记录。填上面 4 个数字就开始。</div>'; return; }
+  let html='<table><tr><th>日期</th><th>周</th><th>泛听</th><th>精听</th><th>阅读</th><th>跟读</th><th>当日</th><th>累计</th><th>勾</th><th class="left">备注</th></tr>';
+  keys.forEach(k=>{
+    const r=S.days[k], h=hours(r), n=(r.checks||[]).filter(Boolean).length;
+    html+='<tr><td>'+k.slice(5)+'</td><td>W'+weekIndex(k)+'</td><td>'+(r.fan||0)+'</td><td>'+(r.jing||0)+'</td><td>'+(r.read||0)+'</td><td>'+(r.shadow||0)+'</td><td><b>'+h.toFixed(2)+'</b></td><td>'+(c.cum[k]||0).toFixed(1)+'</td><td>'+n+'/9</td><td class="left">'+(r.note||'').replace(/</g,'&lt;')+'</td></tr>';
+  });
+  box.innerHTML=html+'</table>';
+}
+
+function loadDay(d){
+  const r=getRec(d);
+  ['fan','jing','read','shadow'].forEach(id=>document.getElementById(id).value=r[id]||'');
+  document.getElementById('note').value=r.note||'';
+  document.getElementById('comp').value=r.comp||'';
+  renderChecks(d); render();
+}
+
+function readForm(){
+  const d=document.getElementById('date').value||today();
+  const r=getRec(d);
+  ['fan','jing','read','shadow'].forEach(id=>r[id]=num(id));
+  r.note=document.getElementById('note').value;
+  r.comp=document.getElementById('comp').value;
+  r.checks=Array.from(document.querySelectorAll('#checks input')).map(x=>x.checked);
+  putRec(d,r); save(); render();
+}
+
+// ---- events ----
+document.getElementById('date').addEventListener('change',e=>loadDay(e.target.value||today()));
+['fan','jing','read','shadow','note','comp'].forEach(id=>
+  document.getElementById(id).addEventListener('input',readForm));
+document.getElementById('checks').addEventListener('change',readForm);
+document.querySelectorAll('[data-set]').forEach(b=>b.addEventListener('click',()=>{
+  document.getElementById(b.dataset.set).value=b.dataset.v; readForm();
+}));
+document.getElementById('btnToday').onclick=()=>{ document.getElementById('date').value=today(); loadDay(today()); };
+document.getElementById('btnCopy').onclick=()=>{
+  const d=document.getElementById('date').value||today();
+  const y=addDays(d,-1), src=S.days[y];
+  if(!src){ alert('昨天（'+y+'）还没有记录。'); return; }
+  putRec(d,Object.assign({},src,{checks:(src.checks||[]).slice()}));
+  loadDay(d); save();
+};
+document.getElementById('btnAll').onclick=()=>{
+  const d=document.getElementById('date').value||today(), r=getRec(d);
+  const lim=compute().total>=100?9:7;
+  r.checks=Array.from({length:9},(_,i)=>i<lim);
+  putRec(d,r); loadDay(d); save();
+};
+['startDate','target','goal'].forEach(id=>document.getElementById(id).addEventListener('change',e=>{
+  const v=e.target.value;
+  if(id==='target'||id==='goal'){ S[id]=Math.max(1,parseFloat(v)||S[id]); }
+  else { if(!v){ e.target.value=S.startDate; return; } S[id]=v; }
+  save(); render();
+}));
+
+function download(name,content,type){
+  const blob=new Blob([content],{type:type||'text/plain;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download=name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+document.getElementById('btnJson').onclick=()=>download('打卡备份_'+today()+'.json',JSON.stringify(S,null,2),'application/json');
+document.getElementById('btnCsv').onclick=()=>{
+  const keys=Object.keys(S.days).filter(k=>k<=today()).sort(); let cum=0;
+  let csv='日期,周次,泛听h,精听min,阅读min,跟读min,自录,AI对话,当日听力h,累计听力h,9勾完成数,理解率,备注\n';
+  keys.forEach(k=>{
+    const r=S.days[k], h=hours(r); cum+=h;
+    const c=r.checks||[];
+    const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+    csv+=[k,'W'+weekIndex(k),r.fan||0,r.jing||0,r.read||0,r.shadow||0,
+      c[7]?'✓':'',c[8]?'✓':'',h.toFixed(2),cum.toFixed(2),
+      c.filter(Boolean).length,q(r.comp||''),q(r.note||'')].join(',')+'\n';
+  });
+  download('打卡记录_'+today()+'.csv','\ufeff'+csv,'text/csv;charset=utf-8');
+};
+document.getElementById('btnImport').onclick=()=>document.getElementById('file').click();
+document.getElementById('file').onchange=e=>{
+  const f=e.target.files[0]; if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    try{
+      const o=JSON.parse(rd.result);
+      if(!o.days) throw new Error('格式不对');
+      if(!confirm('导入将覆盖当前全部记录，确定？'))return;
+      S=Object.assign({},DEFAULT,o);
+      document.getElementById('startDate').value=S.startDate;
+      document.getElementById('target').value=S.target;
+      document.getElementById('goal').value=S.goal;
+      save(); loadDay(today()); alert('导入成功');
+    }catch(err){ alert('导入失败：不是有效的备份文件。'); }
+  };
+  rd.readAsText(f); e.target.value='';
+};
+document.getElementById('btnAlign').onclick=()=>{
+  if(!confirm('把 26 周轮换起点改为今天？已有打卡记录不会删除，但周次会重新排。'))return;
+  S.startDate=today();
+  document.getElementById('startDate').value=S.startDate;
+  save(); loadDay(today());
+};
+document.getElementById('btnReset').onclick=()=>{
+  if(!confirm('确定清空全部打卡记录？建议先导出备份。'))return;
+  S.days={}; save(); loadDay(today());
+};
+
+
+// ---- 提醒 & 小结 ----
+function pad(n){ return String(n).padStart(2,'0'); }
+function icsEscape(s){ return String(s).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n'); }
+function dailySumText(){
+  const c=compute(), d=today(), r=S.days[d], h=r?hours(r):0, wd=weekData(d);
+  const ck=r&&r.checks?r.checks:[];
+  const miss=[];
+  CHECK_LABELS.slice(0,7).forEach((x,i)=>{ if(!ck[i]) miss.push(x[0].replace(' ✓','')); });
+  let stage;
+  if(c.total<100) stage='纯输入期：只做泛听 + 精听 + 阅读 + 15min 跟读，不主动输出、不硬聊';
+  else if(c.total<S.target) stage='启动口语：加 5min 自录 + AI 对话；听力仍 ≥2h/天';
+  else if(c.total<S.goal) stage='深化输出：材料升到 30min+ 采访/纪录片/TED，扩多国口音';
+  else stage='半年收口达成：固化「自己找源、自己定难度」的自学循环';
+  const gate = c.total<100 ? '距启动口语(100h) '+Math.ceil(100-c.total)+'h'
+    : c.total<S.target ? '距质变线('+S.target+'h) '+Math.ceil(S.target-c.total)+'h'
+    : c.total<S.goal ? '距半年目标('+S.goal+'h) '+Math.ceil(S.goal-c.total)+'h' : '半年目标已完成';
+  const L=[];
+  L.push('【'+d.slice(5)+' 每日小结 · W'+wd.w+'】');
+  if(!r||h===0){
+    L.push('今天还没打卡。该做的：泛听 2h+（英字两遍法 / 最多 3 遍）+ 精听 15–30min + 阅读 45min + 跟读 15min。');
+    L.push('本周该听：'+wd.real+'｜'+wd.accent+'｜阅读 '+wd.reading);
+  }else{
+    L.push('今日听力 '+h.toFixed(2)+'h（泛听 '+(r.fan||0)+'h + 精听 '+(r.jing||0)+'min）｜阅读 '+(r.read||0)+'min｜跟读 '+(r.shadow||0)+'min');
+  }
+  L.push('累计 '+c.total.toFixed(1)+'h ｜ 连续 '+c.streak+' 天 ｜ ≥2h 达标 '+c.ok+' 天 ｜ 日均 '+c.avg.toFixed(1)+'h ｜ 7勾全齐率 '+Math.round(c.fullRate*100)+'%');
+  L.push(gate);
+  L.push('阶段：'+stage);
+  L.push('本周 W'+wd.w+'：'+wd.real+'｜'+(wd.std?wd.std+'｜':'')+wd.accent+'｜阅读 '+wd.reading);
+  L.push('本周动作：'+wd.extra);
+  if(miss.length) L.push('红线自查 · 未勾：'+miss.join('、')+'（回头确认是真做到还是漏勾）');
+  else if(r&&h>0) L.push('红线自查：7 项全勾 ✓');
+  if(r&&r.note) L.push('今日卡点：'+r.note);
+  const comp=r&&r.comp;
+  if(comp==='lt30'||comp==='3050') L.push('难度纠偏：今天理解率偏低 → 明天降一档，换回标准频道或更熟悉的题材，别硬扛。200h 只是经验值不是 KPI，听懂一半以上才叫有效输入。');
+  else if(comp==='gt70') L.push('难度纠偏：理解率偏高 → 可以升一档，换更长的视频、更快的语速或没听过的口音。');
+  else if(comp==='5070') L.push('难度纠偏：50–70% 刚好（i+1），保持这个选材。');
+  const y=addDays(d,-1);
+  const hasY=S.days[y] && hours(S.days[y])>0;
+  const recentAny=Object.keys(S.days).some(k=>k<d && k>=addDays(d,-7) && hours(S.days[k])>0);
+  if(!hasY && h>0 && recentAny) L.push('断档恢复：昨天空了一天，今天已经接上。累计不会清零，照常 2h 即可——别补双倍，也别因为断一天就放弃。');
+  L.push('明天：保持 2h+，换新来源，别磨同一段；中文字幕继续戒。');
+  return L.join('\n');
+}
+function weekSumText(){
+  const c=compute(), d=today(), w=weekIndex(d);
+  const start=addDays(S.startDate,(w-1)*7);
+  let h=0,ok=0,logged=0,notes=[],full=0,red=0,hard=0,easy=0;
+  for(let i=0;i<7;i++){
+    const k=addDays(start,i), r=S.days[k];
+    if(!r) continue;
+    const x=hours(r); if(x>0){ logged++; h+=x; if(x>=2)ok++;
+      const ck=r.checks||[];
+      if(ck.slice(0,7).filter(Boolean).length===7)full++;
+      [4,5,6].forEach(i=>{ if(!ck[i]) red++; });
+      if(r.comp==='lt30'||r.comp==='3050') hard++;
+      if(r.comp==='gt70') easy++;
+      if(r.note) notes.push(k.slice(5)+'：'+r.note); }
+  }
+  const wd=weekData(d);
+  return ['【W'+w+' 本周小结 · 累计 '+c.total.toFixed(1)+'h】',
+    '本周听力 '+h.toFixed(1)+'h ｜ 记录 '+logged+'/7 天 ｜ ≥2h 达标 '+ok+' 天 ｜ 7勾全齐 '+full+' 天',
+    c.total<S.target?'距质变线('+S.target+'h) 还差 '+Math.ceil(S.target-c.total)+'h':'已过质变线，距半年目标 '+(c.total<S.goal?Math.ceil(S.goal-c.total)+'h':'0h'),
+    '本周主题：'+wd.real+'｜'+wd.accent,
+    '纠偏：偏难 '+hard+' 天 / 偏易 '+easy+' 天 ｜ 红线项未勾 '+red+' 次（中文字幕 / 超3遍 / 不足2h）',
+    hard>=3?'下周先降一档难度，把理解率拉回 50–70% 再谈加量。':easy>=3?'下周可以升一档：加长视频或换更快口音。':'难度带基本合理，按 W'+w+' 轮换继续。',
+    notes.length?'卡点回顾：\n'+notes.join('\n'):'卡点回顾：本周没写备注（建议每天花 5 秒记一句）',
+    '下周动作：'+wd.extra,
+    '提醒：每周日点一次「导出备份」，防止清缓存丢数据。'].join('\n');
+}
+function renderSum(){ document.getElementById('dailySum').textContent=dailySumText(); }
+function copyText(t){
+  const ta=document.createElement('textarea');
+  ta.value=t; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select();
+  let ok=false; try{ ok=document.execCommand('copy'); }catch(e){}
+  ta.remove();
+  if(!ok && navigator.clipboard) navigator.clipboard.writeText(t).catch(()=>{});
+  alert(ok?'已复制，可直接粘贴到微信/备忘录':'复制失败，请长按上方文字手动复制');
+}
+function showBanner(title,body){
+  document.getElementById('bannerTitle').textContent=title;
+  document.getElementById('bannerBody').textContent=body;
+  document.getElementById('banner').classList.add('show');
+  try{
+    if(window.Notification && Notification.permission==='granted'){
+      new Notification(title,{body:body.split('\n').slice(0,5).join('\n')});
+    }
+  }catch(e){}
+}
+document.getElementById('bannerClose').onclick=()=>document.getElementById('banner').classList.remove('show');
+document.getElementById('bannerGo').onclick=()=>{
+  document.getElementById('banner').classList.remove('show');
+  document.getElementById('date').value=today(); loadDay(today());
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+document.getElementById('btnCopySum').onclick=()=>copyText(dailySumText());
+document.getElementById('btnWeekSum').onclick=()=>{
+  const t=weekSumText();
+  document.getElementById('dailySum').textContent=t; copyText(t);
+};
+document.getElementById('btnTest').onclick=()=>showBanner('提醒测试 · '+today().slice(5),dailySumText());
+document.getElementById('btnNotify').onclick=()=>{
+  if(!window.Notification){ alert('这个浏览器不支持网页通知，请用「导出到手机日历」。'); return; }
+  try{
+    Notification.requestPermission().then(p=>{
+      if(p==='granted'){ alert('已开启。页面开着时到点会弹通知；锁屏提醒仍以手机日历为准。'); showBanner('通知已开启','到点会在这里弹今日小结'); }
+      else alert('未获授权（本地文件常被浏览器禁用）。没关系，请用「导出到手机日历」，那个最稳。');
+    }).catch(()=>alert('无法申请权限，请用「导出到手机日历」。'));
+  }catch(e){ alert('无法申请权限，请用「导出到手机日历」。'); }
+};
+document.getElementById('remindTime').addEventListener('change',e=>{
+  S.remindTime=e.target.value||'20:30'; save();
+});
+document.getElementById('btnIcs').onclick=()=>{
+  const t=(S.remindTime||'20:30').split(':');
+  const hh=pad(t[0]!=='' && Number.isFinite(+t[0]) ? +t[0] : 20);
+  const mm=pad(t[1]!=='' && Number.isFinite(+t[1]) ? +t[1] : 30);
+  const base = S.startDate>today() ? S.startDate : today();
+  const sd=base.replace(/-/g,'');
+  const stamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+  const L=[
+    'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//WeiKang English Checkin//CN','CALSCALE:GREGORIAN',
+    'X-WR-TIMEZONE:Asia/Shanghai','METHOD:PUBLISH',
+    'BEGIN:VTIMEZONE','TZID:Asia/Shanghai','X-LIC-LOCATION:Asia/Shanghai',
+    'BEGIN:STANDARD','TZOFFSETFROM:+0800','TZOFFSETTO:+0800','TZNAME:CST',
+    'DTSTART:19700101T000000','END:STANDARD','END:VTIMEZONE',
+    'BEGIN:VEVENT',
+    'UID:weikang-checkin-'+sd+'@local','DTSTAMP:'+stamp,
+    'DTSTART;TZID=Asia/Shanghai:'+sd+'T'+hh+mm+'00','DURATION:PT5M',
+    'RRULE:FREQ=DAILY;COUNT=180',
+    'SUMMARY:'+icsEscape('英语打卡 · 2h+ 听力'),
+    'DESCRIPTION:'+icsEscape('泛听 2h+（英字两遍法 / 最多 3 遍）· 精听 15-30min · 阅读 45min · 跟读 15min。戒中文字幕，不磨第 4 遍。打开打卡页填 4 个数字 + 勾红线，页面自动算进度与该听什么。'),
+    'BEGIN:VALARM','ACTION:DISPLAY','TRIGGER:-PT1M',
+    'DESCRIPTION:'+icsEscape('该打卡了：泛听 2h+ / 精听 15-30min / 阅读 45min / 跟读 15min'),
+    'END:VALARM','END:VEVENT','END:VCALENDAR'
+  ];
+  download('英语打卡每日提醒_180天.ics',L.join('\r\n')+'\r\n','text/calendar;charset=utf-8');
+  alert('已下载 .ics（从 '+(S.startDate>today()?S.startDate:today())+' '+(S.remindTime||'20:30')+' 起，180 天每日重复）。\n手机点开加入日历即可；如果之前导入过，先删掉旧的那条，避免双响。');
+};
+// 页面开着时，到点弹一次
+let lastRemind='';
+setInterval(()=>{
+  const d=new Date(), hm=pad(d.getHours())+':'+pad(d.getMinutes());
+  const key=today()+'|'+(S.remindTime||'20:30');
+  if(hm===(S.remindTime||'20:30') && lastRemind!==key){
+    lastRemind=key; renderSum(); showBanner('该打卡了 · '+today().slice(5),dailySumText());
+  }
+},20000);
+
+// ---- init ----
+(function(){
+  try{ const k='__probe__'; localStorage.setItem(k,'1'); localStorage.removeItem(k); }
+  catch(e){
+    const bar=document.createElement('div'); bar.className='alertbar';
+    bar.innerHTML='<b>本地存储不可用</b>　今天的记录刷新后会丢。请换 Chrome / Edge / Safari 的正常模式打开（别用无痕），并每天点一次「导出备份」。';
+    const w=document.querySelector('.wrap');
+    w.insertBefore(bar,w.firstChild);
+  }
+})();
+if(!S.startDate){ S.startDate=today(); try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+document.getElementById('startDate').value=S.startDate;
+document.getElementById('target').value=S.target;
+document.getElementById('goal').value=S.goal;
+document.getElementById('remindTime').value=S.remindTime||'20:30';
+if(!S.remindTime) S.remindTime='20:30';
+document.getElementById('date').value=today();
+loadDay(today());
+renderSum();
+</script>
+<script>
+(function(){
+  var card=document.getElementById('installCard');
+  var standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  if(standalone) return;
+  var ua=navigator.userAgent;
+  var isIOS=/iPad|iPhone|iPod/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1);
+  var deferred=null, btn=document.getElementById('btnInstall');
+  window.addEventListener('beforeinstallprompt',function(e){
+    e.preventDefault(); deferred=e;
+    card.style.display='block';
+    btn.style.display='inline-block';
+    document.getElementById('iosHint').style.display='none';
+  });
+  if(btn) btn.addEventListener('click',function(){
+    if(!deferred) return;
+    deferred.prompt();
+    deferred.userChoice.then(function(r){ if(r.outcome==='accepted') card.style.display='none'; });
+    deferred=null;
+  });
+  window.addEventListener('appinstalled',function(){ card.style.display='none'; });
+  if(isIOS){
+    card.style.display='block';
+    document.getElementById('iosHint').style.display='block';
+    if(document.getElementById('andHint')) document.getElementById('andHint').style.display='none';
+  }
+  if('serviceWorker' in navigator && (location.protocol==='https:'||
+     location.hostname==='localhost'||location.hostname==='127.0.0.1')){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  }
+})();
+</script>
+</body>
+</html>
